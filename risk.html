@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link type="html/css" rel="stylesheet" href="style.css"/>
+    </head>
+    <title>Risk Battle Calculator</title>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="inputs">
+                    <span class="label">Attacking Armies</span>
+                    <input type="number" class="num_entry" id="attackers" max="3" min="1">
+                    <span class="label">Defending Armies</span>
+                    <input type="number" class="num_entry" name="defenders" id="defenders" max="2" min="1">
+                </div>
+            </div>
+            <div class="jumbotron">
+                <a class="button" name="battle" onclick="main()">Battle</a>
+                <br />
+                <br />
+                <div id="result"></div>
+                <div id="die_view"></div>
+            </div>
+        </div>
+    </body>
+    <script>
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    function Army(units) {
+        this.units = units;
+        this.rolls = [];
+        this.victories = 0;
+        this.calculateRolls = function() {
+            for (i = 0; i < this.units; i++) {
+                this.rolls.push(getRandomInt(1, 6));
+            }
+            this.rolls.sort();
+            this.rolls.reverse();
+        };
+    };
+
+    function playRisk(attacker, defender) {
+        var totalBattles = 0
+        var result = ""
+
+        if (attacker.units > defender.units) {
+            totalBattles = defender.units } else {
+            totalBattles = attacker.units
+        };
+
+        attacker.calculateRolls();
+        defender.calculateRolls();
+
+        for (i = 0; i < totalBattles; i++) {
+            if (defender.rolls[i] >= attacker.rolls[i]) {
+                defender.victories++ } else {
+                attacker.victories++
+            }
+        };
+    };
+
+    function displayVictories(attacker, defender) {
+        if (defender.victories >= attacker.victories) {
+            result = '<div class="result-box">' +
+            'The defending armies stand their ground!' +
+            '<p>Casualties for the attackers: ' +
+            defender.victories.toString() +
+            '</p><p>Casualties for the defenders: ' +
+            attacker.victories.toString() +
+            '</p></div>'
+        } else {
+            result = '<div class="result-box">' +
+            'The attacking armies are victorious!    ' +
+            '<p id=>Casualties for the defenders: ' +
+            attacker.victories.toString() +
+            '</p><p>Casualties for the attackers: '  +
+            defender.victories.toString() +
+            '</p></div>'
+        };
+        return result
+    };
+
+    function displayDice(attacker, defender) {
+        var dice = ""
+
+        for (i = 0; i < attacker.rolls.length; i++) {
+            dice = dice + "<div class='red_die'>" +
+            attacker.rolls[i].toString() +
+            "</div>"
+        };
+
+        dice = dice + ("<br /><br /><br /><br />")
+
+        for (i = 0; i < defender.rolls.length; i++) {
+            dice = dice + "<div class='white_die'>" +
+            defender.rolls[i].toString() +
+            "</div>"
+        };
+
+        return dice
+    };
+
+    function main() {
+        var attacker = new Army(document.getElementById('attackers').value)
+        var defender = new Army(document.getElementById('defenders').value)
+        playRisk(attacker, defender)
+        document.getElementById('result').innerHTML = displayVictories(attacker, defender)
+        document.getElementById('die_view').innerHTML = displayDice(attacker, defender)
+    };
+    </script>
+</html>
