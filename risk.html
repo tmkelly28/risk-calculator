@@ -36,10 +36,10 @@
 	Takes one parameter: units
 	*/
     function Army(units) {
-        this.units = units;						// number of units used in a battle 
-        this.rolls = []; 						// array holding the numerical values of each die roll
-        this.victories = 0; 					// number of die rolls the army wins in a battle
-        this.calculateRolls = function() { 		// populates the rolls array with a random number of rolls for each unit
+        this.units = units;	// number of units used in a battle 
+        this.rolls = []; // array holding the numerical values of each die roll
+        this.victories = 0; // number of die rolls the army wins in a battle
+        this.calculateRolls = function() { // populates the rolls array with a random number of rolls for each unit
             for (i = 0; i < this.units; i++) {
                 this.rolls.push(getRandomInt(1, 6));
             }
@@ -67,9 +67,9 @@
         attacker.calculateRolls();
         defender.calculateRolls();
 
-        for (i = 0; i < totalBattles; i++) {				// loop through a range of indices for each battle
-            if (defender.rolls[i] >= attacker.rolls[i]) {	// compare the die values at each index; defenders always win ties
-                defender.victories++ } else {				// call on the winning Army to increment its victories
+        for (i = 0; i < totalBattles; i++) { // loop through a range of indices for each battle
+            if (defender.rolls[i] >= attacker.rolls[i]) { // compare the die values at each index; defenders always win ties
+                defender.victories++ } else { // call on the winning Army to increment its victories
                 attacker.victories++
             }
         };
@@ -113,7 +113,7 @@
         var dice = ""
 
         for (i = 0; i < attacker.rolls.length; i++) {
-            dice = dice + "<div class='red_die'>" +		// the attacker traditionally rolls red dice
+            dice = dice + "<div class='red_die'>" +	// the attacker traditionally rolls red dice
             attacker.rolls[i].toString() +
             "</div>"
         };
@@ -121,7 +121,7 @@
         dice = dice + ("<br /><br /><br /><br />")
 
         for (i = 0; i < defender.rolls.length; i++) {
-            dice = dice + "<div class='white_die'>" +	// the defender traditionally rolls white dice
+            dice = dice + "<div class='white_die'>" + // the defender traditionally rolls white dice
             defender.rolls[i].toString() +
             "</div>"
         };
@@ -130,11 +130,11 @@
     };
 
     function main() {
-        var attacker = new Army(document.getElementById('attackers').value)					// create the attacking army using the value from the attackers entry field
-        var defender = new Army(document.getElementById('defenders').value)					// create the defending army using the value from the defenders entry field
-        playRisk(attacker, defender)														// compare each army's dice rolls, and set victories for each army
-        document.getElementById('result').innerHTML = displayVictories(attacker, defender)  // display the victor & casualties based on each army's victories in the document
-        document.getElementById('die_view').innerHTML = displayDice(attacker, defender)	  // display the dice rolls in the document
+        var attacker = new Army(document.getElementById('attackers').value)	// create the attacking army using the value from the attackers entry field
+        var defender = new Army(document.getElementById('defenders').value)	// create the defending army using the value from the defenders entry field
+        playRisk(attacker, defender) // compare each army's dice rolls, and set victories for each army
+        document.getElementById('result').innerHTML = displayVictories(attacker, defender) // display the victor & casualties based on each army's victories in the document
+        document.getElementById('die_view').innerHTML = displayDice(attacker, defender)	// display the dice rolls in the document
     };
     </script>
 </html>
